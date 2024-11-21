@@ -7,131 +7,112 @@ using System.Threading.Tasks;
 namespace InferenceEngine
 {
     public class ForwardChaining
-{
-    private readonly KnowledgeBase KnowledgeBase;
-    private readonly Symbol Query;
-
-    /// <summary>
-    /// Initializes a new instance of the ForwardChaining solver.
-    /// </summary>
-    /// <param name="knowledgeBase">The knowledge base containing clauses and the query.</param>
-    public ForwardChaining(KnowledgeBase knowledgeBase)
     {
-        KnowledgeBase = knowledgeBase ?? throw new ArgumentNullException(nameof(knowledgeBase));
-        Query = knowledgeBase.Query ?? throw new ArgumentNullException("Query cannot be null.");
-        ValidateHornKnowledgeBase();
-        ValidateHornQuery();
-    }
-
-    /// <summary>
-    /// Solves the query using Forward Chaining.
-    /// </summary>
-    /// <returns>A ForwardChainingResult object containing whether the query is entailed and the inference chain.</returns>
-    public ForwardChainingResult Solve()
-    {
-        // Initialize inferred and count dictionaries
-        var inferred = KnowledgeBase.Base
-            .SelectMany(clause => clause.GetSymbols())
-            .Distinct()
-            .ToDictionary(symbol => symbol, _ => false);
-
-        var count = new Dictionary<Implication, int>();
-
-        // Initialize the agenda with symbols known to be true
-        var agenda = InitializeAgenda(KnowledgeBase.Base, count);
-
-        // Track the result of forward chaining
-        var chain = new List<Symbol>();
-
-        while (agenda.Count > 0)
+        /// <summary>
+        /// Initializes a new instance of the ForwardChaining solver.
+        /// </summary>
+        /// <param name="knowledgeBase">The knowledge base containing clauses and the query.</param>
+        public ForwardChaining(KnowledgeBase knowledgeBase)
         {
-            // Dequeue the first symbol
-            var p = agenda.Dequeue();
-            chain.Add(p);
+            Base = knowledgeBase ?? throw new ArgumentNullException(nameof(knowledgeBase));
+            ValidateHornQuery();
+        }
 
-            // If the query is found, return the result
-            if (p == Query)
+        public KnowledgeBase Base { get; set; }
+        public bool Entails { get; set; }
+        public List<Symbol> InferenceChain { get; set; }
+
+        /// <summary>
+        /// Solves the query using Forward Chaining.
+        /// </summary>
+        /// <returns>A ForwardChainingResult object containing whether the query is entailed and the inference chain.</returns>
+        public void Solve()
+        {
+            // Initialize inferred and count dictionaries
+            var inferred = Base.Base
+                .SelectMany(clause => clause.Symbols())
+                .Distinct()
+                .ToDictionary(symbol => symbol, _ => false);
+
+            var count = new Dictionary<Implication, int>();
+
+            // Initialize the agenda with symbols known to be true
+            var agenda = InitializeAgenda(Base.Base, count);
+
+            // Track the result of forward chaining
+            var chain = new List<Symbol>();
+
+            while (agenda.Count > 0)
             {
-                return new ForwardChainingResult
-                {
-                    Entails = true,
-                    InferenceChain = chain
-                };
-            }
+                // Dequeue the first symbol
+                var p = agenda.Dequeue();
+                chain.Add(p);
 
-            // Mark symbol as inferred and propagate to implications
-            if (!inferred[p])
-            {
-                inferred[p] = true;
-
-                foreach (var clause in KnowledgeBase.Base.OfType<Implication>())
+                // If the query is found, return the result
+                if (p.Equals(Base.Query))
                 {
-                    if (clause.Antecedent.GetSymbols().Contains(p))
+                    Entails = true;
+                    InferenceChain = chain;
+                    return;
+                }
+
+                // Mark symbol as inferred and propagate to implications
+                if (!inferred[p])
+                {
+                    inferred[p] = true;
+
+                    foreach (var clause in Base.Base.OfType<Implication>())
                     {
-                        count[clause]--;
-
-                        if (count[clause] == 0)
+                        if (clause.Antecedent.Symbols().Contains(p))
                         {
-                            agenda.Enqueue(clause.Consequent);
+                            count[clause]--;
+
+                            if (count[clause] == 0)
+                            {
+                                foreach (Symbol symbol in clause.Consequent.Symbols())
+                                    agenda.Enqueue(symbol);
+                            }
                         }
                     }
                 }
             }
+
+            Entails = false;
+            InferenceChain = chain;
         }
 
-        return new ForwardChainingResult
+        /// <summary>
+        /// Initializes the agenda and counts for implications.
+        /// </summary>
+        private Queue<Symbol> InitializeAgenda(List<Clause> baseClauses, Dictionary<Implication, int> count)
         {
-            Entails = false,
-            InferenceChain = chain
-        };
-    }
+            var agenda = new Queue<Symbol>();
 
-    /// <summary>
-    /// Initializes the agenda and counts for implications.
-    /// </summary>
-    private Queue<Symbol> InitializeAgenda(List<Clause> baseClauses, Dictionary<Implication, int> count)
-    {
-        var agenda = new Queue<Symbol>();
+            foreach (var clause in baseClauses)
+            {
+                if (clause is Symbol symbol)
+                {
+                    agenda.Enqueue(symbol);
+                }
+                else if (clause is Implication implication)
+                {
+                    count[implication] = implication.Antecedent.Symbols().Count;
+                }
+            }
 
-        foreach (var clause in baseClauses)
-        {
-            if (clause is Symbol symbol)
-            {
-                agenda.Enqueue(symbol);
-            }
-            else if (clause is Implication implication)
-            {
-                count[implication] = implication.Antecedent.GetSymbols().Count;
-            }
+            return agenda;
         }
 
-        return agenda;
-    }
-
-    /// <summary>
-    /// Validates that the knowledge base is in Horn form.
-    /// </summary>
-    private void ValidateHornKnowledgeBase()
-    {
-        foreach (var clause in KnowledgeBase.Base)
+        /// <summary>
+        /// Validates that the query is a single symbol.
+        /// </summary>
+        private void ValidateHornQuery()
         {
-            if (!clause.IsHornClause())
+            if (!(Base.Query is Symbol))
             {
-                throw new ArgumentException("Knowledge base must consist of Horn clauses.");
+                throw new ArgumentException("Query must be a single symbol.");
             }
         }
     }
-
-    /// <summary>
-    /// Validates that the query is a single symbol.
-    /// </summary>
-    private void ValidateHornQuery()
-    {
-        if (!(Query is Symbol))
-        {
-            throw new ArgumentException("Query must be a single symbol.");
-        }
-    }
-}
 
 }

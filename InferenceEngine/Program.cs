@@ -27,10 +27,15 @@ for (int p = 0; p <= 1; p++) // P: 0 (False), 1 (True)
 using InferenceEngine;
 
 KnowledgeBase kn = new KnowledgeBase("test_HornKB.txt");
-TruthTable tt = new TruthTable(kn);
+/*TruthTable tt = new TruthTable(kn);
 
 string table = tt.GenerateTable();
 Console.WriteLine(table);
 
-Console.WriteLine(tt.ValidModelsCount);
+Console.WriteLine(tt.ValidModelsCount);*/
+
+ForwardChaining fc = new ForwardChaining(kn);
+fc.Solve();
+
+Console.WriteLine((fc.Entails) ? $"YES: {string.Join(" ,", fc.InferenceChain)}" : "NO");
 
