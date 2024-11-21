@@ -1,0 +1,28 @@
+D:\InferenceEngine\InferenceEngine\obj\Debug\net6.0\InferenceEngine.GeneratedMSBuildEditorConfig.editorconfig
+D:\InferenceEngine\InferenceEngine\obj\Debug\net6.0\InferenceEngine.AssemblyInfoInputs.cache
+D:\InferenceEngine\InferenceEngine\obj\Debug\net6.0\InferenceEngine.AssemblyInfo.cs
+D:\InferenceEngine\InferenceEngine\obj\Debug\net6.0\InferenceEngine.csproj.CoreCompileInputs.cache
+D:\InferenceEngine\InferenceEngine\bin\Debug\net6.0\InferenceEngine.exe
+D:\InferenceEngine\InferenceEngine\bin\Debug\net6.0\InferenceEngine.deps.json
+D:\InferenceEngine\InferenceEngine\bin\Debug\net6.0\InferenceEngine.runtimeconfig.json
+D:\InferenceEngine\InferenceEngine\bin\Debug\net6.0\InferenceEngine.dll
+D:\InferenceEngine\InferenceEngine\bin\Debug\net6.0\InferenceEngine.pdb
+D:\InferenceEngine\InferenceEngine\obj\Debug\net6.0\InferenceEngine.dll
+D:\InferenceEngine\InferenceEngine\obj\Debug\net6.0\refint\InferenceEngine.dll
+D:\InferenceEngine\InferenceEngine\obj\Debug\net6.0\InferenceEngine.pdb
+D:\InferenceEngine\InferenceEngine\obj\Debug\net6.0\InferenceEngine.genruntimeconfig.cache
+D:\InferenceEngine\InferenceEngine\obj\Debug\net6.0\ref\InferenceEngine.dll
+C:\Users\Admin\OneDrive\MySwinburne\Assignments\Fall2024\COS30019 - Introduction to Artificial Intelligence\Assignments\Assignment 2 – Inference Engine for Propositional Logic\InferenceEngine\InferenceEngine\bin\Debug\net6.0\InferenceEngine.exe
+C:\Users\Admin\OneDrive\MySwinburne\Assignments\Fall2024\COS30019 - Introduction to Artificial Intelligence\Assignments\Assignment 2 – Inference Engine for Propositional Logic\InferenceEngine\InferenceEngine\bin\Debug\net6.0\InferenceEngine.deps.json
+C:\Users\Admin\OneDrive\MySwinburne\Assignments\Fall2024\COS30019 - Introduction to Artificial Intelligence\Assignments\Assignment 2 – Inference Engine for Propositional Logic\InferenceEngine\InferenceEngine\bin\Debug\net6.0\InferenceEngine.runtimeconfig.json
+C:\Users\Admin\OneDrive\MySwinburne\Assignments\Fall2024\COS30019 - Introduction to Artificial Intelligence\Assignments\Assignment 2 – Inference Engine for Propositional Logic\InferenceEngine\InferenceEngine\bin\Debug\net6.0\InferenceEngine.dll
+C:\Users\Admin\OneDrive\MySwinburne\Assignments\Fall2024\COS30019 - Introduction to Artificial Intelligence\Assignments\Assignment 2 – Inference Engine for Propositional Logic\InferenceEngine\InferenceEngine\bin\Debug\net6.0\InferenceEngine.pdb
+C:\Users\Admin\OneDrive\MySwinburne\Assignments\Fall2024\COS30019 - Introduction to Artificial Intelligence\Assignments\Assignment 2 – Inference Engine for Propositional Logic\InferenceEngine\InferenceEngine\obj\Debug\net6.0\InferenceEngine.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\OneDrive\MySwinburne\Assignments\Fall2024\COS30019 - Introduction to Artificial Intelligence\Assignments\Assignment 2 – Inference Engine for Propositional Logic\InferenceEngine\InferenceEngine\obj\Debug\net6.0\InferenceEngine.AssemblyInfoInputs.cache
+C:\Users\Admin\OneDrive\MySwinburne\Assignments\Fall2024\COS30019 - Introduction to Artificial Intelligence\Assignments\Assignment 2 – Inference Engine for Propositional Logic\InferenceEngine\InferenceEngine\obj\Debug\net6.0\InferenceEngine.AssemblyInfo.cs
+C:\Users\Admin\OneDrive\MySwinburne\Assignments\Fall2024\COS30019 - Introduction to Artificial Intelligence\Assignments\Assignment 2 – Inference Engine for Propositional Logic\InferenceEngine\InferenceEngine\obj\Debug\net6.0\InferenceEngine.csproj.CoreCompileInputs.cache
+C:\Users\Admin\OneDrive\MySwinburne\Assignments\Fall2024\COS30019 - Introduction to Artificial Intelligence\Assignments\Assignment 2 – Inference Engine for Propositional Logic\InferenceEngine\InferenceEngine\obj\Debug\net6.0\InferenceEngine.dll
+C:\Users\Admin\OneDrive\MySwinburne\Assignments\Fall2024\COS30019 - Introduction to Artificial Intelligence\Assignments\Assignment 2 – Inference Engine for Propositional Logic\InferenceEngine\InferenceEngine\obj\Debug\net6.0\refint\InferenceEngine.dll
+C:\Users\Admin\OneDrive\MySwinburne\Assignments\Fall2024\COS30019 - Introduction to Artificial Intelligence\Assignments\Assignment 2 – Inference Engine for Propositional Logic\InferenceEngine\InferenceEngine\obj\Debug\net6.0\InferenceEngine.pdb
+C:\Users\Admin\OneDrive\MySwinburne\Assignments\Fall2024\COS30019 - Introduction to Artificial Intelligence\Assignments\Assignment 2 – Inference Engine for Propositional Logic\InferenceEngine\InferenceEngine\obj\Debug\net6.0\InferenceEngine.genruntimeconfig.cache
+C:\Users\Admin\OneDrive\MySwinburne\Assignments\Fall2024\COS30019 - Introduction to Artificial Intelligence\Assignments\Assignment 2 – Inference Engine for Propositional Logic\InferenceEngine\InferenceEngine\obj\Debug\net6.0\ref\InferenceEngine.dll

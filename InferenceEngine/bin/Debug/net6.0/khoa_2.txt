@@ -1,0 +1,4 @@
+TELL
+p&q=> r;  r=>s;  s&q=>t;  q; p;
+ASK
+t
