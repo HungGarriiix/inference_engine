@@ -14,6 +14,7 @@ namespace InferenceEngine
             Query = null;
             IsExpected = null;
             ReadFile(file);
+            PrintOutlines();
         }
 
         public List<Clause> Base { get; set; }
@@ -47,7 +48,6 @@ namespace InferenceEngine
                 foreach(string line in baseSplit)
                 {
                     string lineSave = line.Trim();
-                    Console.WriteLine(lineSave);
                     if (lineSave == "")
                     {
                         continue;
@@ -79,6 +79,15 @@ namespace InferenceEngine
                         IsExpected = (result == "YES") ? true : false;
                 }
             }
+        }
+
+        public void PrintOutlines()
+        {
+            Console.WriteLine("Knowledge base:\n");
+            foreach (Clause clause in Base) Console.WriteLine(clause.ToString());
+
+            Console.WriteLine($"Query: {Query.ToString()}\n");
+            Console.WriteLine((IsExpected == null) ? "" : $"Expecting: {((IsExpected == true) ? "YES" : "NO")}");
         }
     }
 }
