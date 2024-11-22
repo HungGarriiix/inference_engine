@@ -26,20 +26,45 @@ for (int p = 0; p <= 1; p++) // P: 0 (False), 1 (True)
 
 using InferenceEngine;
 
-KnowledgeBase kn = new KnowledgeBase("test_HornKB.txt");
-/*TruthTable tt = new TruthTable(kn);
+if (args.Length < 2)
+{
+    Console.WriteLine("Usage: iengine <filename> <method>");
+    return;
+}
 
-string table = tt.GenerateTable();
-Console.WriteLine(table);
+string fileName = args[0];
+string algorithmMethod = args[1].ToUpper();
 
-Console.WriteLine(tt.ValidModelsCount);*/
+if (!File.Exists(fileName))
+{
+    Console.WriteLine($"Error: File '{fileName}' not found.");
+    return;
+}
 
-/*ForwardChaining fc = new ForwardChaining(kn);
-fc.Solve();
+try
+{
+    KnowledgeBase kn = new KnowledgeBase(fileName);
+    IEngine algorithm;
 
-Console.WriteLine((fc.Entails) ? $"YES: {string.Join(" ,", fc.InferenceChain)}" : "NO");*/
+    switch (algorithmMethod)
+    {
+        case "TT":
+            algorithm = new TruthTable(kn);
+            break;
+        case "FC":
+            algorithm = new ForwardChaining(kn);
+            break;
+        case "BC":
+            algorithm = new BackwardChaining(kn);
+            break;
+        default:
+            throw new ArgumentException("Method not found.");
+    }
 
-BackwardChaining bc = new BackwardChaining(kn);
-bc.Solve();
-
-Console.WriteLine((bc.Entails) ? $"YES: {string.Join(", ", bc.InferenceChain)}" : "NO");
+    algorithm.Solve();
+    algorithm.PrintResult();
+}
+catch (Exception ex)
+{
+    Console.WriteLine(ex.Message);
+}

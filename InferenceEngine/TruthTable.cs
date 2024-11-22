@@ -6,19 +6,14 @@ using System.Threading.Tasks;
 
 namespace InferenceEngine
 {
-    public class TruthTable
+    public class TruthTable: IEngine
     {
-        public KnowledgeBase KnowledgeBase { get; set; }
-        public List<Symbol> Symbols { get; set; }
-        public List<(Dictionary<Symbol, bool>, bool?, bool?)> Table { get; set; }
-        public int ValidModelsCount { get; set; }
-
         public TruthTable(KnowledgeBase knowledgeBase)
         {
-            KnowledgeBase = knowledgeBase;
-            Symbols = KnowledgeBase.Base
+            Base = knowledgeBase;
+            Symbols = Base.Base
                         .SelectMany(clause => clause.Symbols())
-                        .Union(KnowledgeBase.Query.Symbols())
+                        .Union(Base.Query.Symbols())
                         .Distinct()
                         .OrderBy(symbol => symbol.Name)
                         .ToList();
@@ -26,20 +21,21 @@ namespace InferenceEngine
             ValidModelsCount = 0;
         }
 
-        public (bool Entails, int? ValidModelCount) Solve()
+        public KnowledgeBase Base { get; set; }
+        public List<Symbol> Symbols { get; set; }
+        public bool Entails { get; set; }
+        public List<(Dictionary<Symbol, bool>, bool?, bool?)> Table { get; set; }
+        public int ValidModelsCount { get; set; }
+
+        public void Solve()
         {
-            if (KnowledgeBase.Query == null)
+            if (Base.Query == null)
                 throw new InvalidOperationException("No query provided in the knowledge base.");
 
-            var model = new Dictionary<Symbol, bool>();
-            var valid = CheckAll(KnowledgeBase.Base, KnowledgeBase.Query, Symbols, model);
+            Dictionary<Symbol, bool> model = new Dictionary<Symbol, bool>();
+            bool valid = CheckAll(Base.Base, Base.Query, Symbols, model);
 
-            if (valid && ValidModelsCount > 0)
-            {
-                return (true, ValidModelsCount);
-            }
-
-            return (false, null);
+            Entails = (valid && ValidModelsCount > 0);
         }
 
         private bool CheckAll(List<Clause> baseClauses, Clause query, List<Symbol> symbols, Dictionary<Symbol, bool> model)
@@ -106,17 +102,19 @@ namespace InferenceEngine
             return true;
         }
 
-        public string GenerateTable()
+        public void PrintResult()
         {
-            if (!Table.Any())
-            {
-                Solve();
-            }
+            Console.WriteLine((Entails) ?
+                                $"YES: {ValidModelsCount}" :
+                                "NO");
+        }
 
+        private string GenerateTable()
+        {
             // Create table headers
             var headers = Symbols.Select(symbol => symbol.Name).ToList();
             headers.Add("KB");
-            headers.Add("Query: " + KnowledgeBase.Query.ToString());
+            headers.Add("Query: " + Base.Query.ToString());
 
             // Generate table rows
             var rows = new List<List<string>>();

@@ -12,11 +12,13 @@ namespace InferenceEngine
         {
             Base = new List<Clause>();
             Query = null;
+            IsExpected = null;
             ReadFile(file);
         }
 
         public List<Clause> Base { get; set; }
         public Clause Query { get; set; }
+        public bool? IsExpected { get; set; }
 
         public HashSet<Symbol> Symbols 
         { 
@@ -35,10 +37,13 @@ namespace InferenceEngine
 
             while(!sr.EndOfStream) 
             {
-                sr.ReadLine();  // skip TELL
+                string tell = sr.ReadLine();
+                if (tell == null && tell != "TELL") throw new ArgumentException("Missing TELL.");
+
+                // Knowledge base
                 string baseRaw = sr.ReadLine();
-                baseRaw = baseRaw.Replace(" ", string.Empty);
-                string[] baseSplit = baseRaw.Split(';');
+                if (baseRaw == null) throw new ArgumentException("Missing Knowledge Base.");
+                string[] baseSplit = baseRaw.Replace(" ", string.Empty).Split(';');
                 foreach(string line in baseSplit)
                 {
                     string lineSave = line.Trim();
@@ -50,17 +55,29 @@ namespace InferenceEngine
 
                     var baseTokens = Parser.GetTokens(lineSave);
                     Clause baseClause = Parser.Parse(baseTokens);
-                    Console.WriteLine(baseClause.ToString());
                     Base.Add(baseClause);
                 }
 
-                sr.ReadLine(); // skip ASK
+                string ask = sr.ReadLine();
+                if (ask == null && ask != "ASK") throw new ArgumentException("Missing ASK.");
+
+                // Query
                 string queryRaw = sr.ReadLine();
+                if (queryRaw == null) throw new ArgumentException("Missing Query.");
                 var queryToken = Parser.GetTokens(queryRaw);
                 Clause queryClause = Parser.Parse(queryToken);
-
-                Console.WriteLine($"ASK: {queryClause.ToString()}");
                 Query = queryClause;
+
+                // Expect result (Optional)
+                string expect = sr.ReadLine();
+                if (expect != null)
+                {
+                    if (expect != "EXPECT") throw new ArgumentException("Missing EXPECT.");
+
+                    string result = sr.ReadLine();
+                    if (result != null && (result != "YES" || result != "NO"))
+                        IsExpected = (result == "YES") ? true : false;
+                }
             }
         }
     }
