@@ -34,8 +34,12 @@ Console.WriteLine(table);
 
 Console.WriteLine(tt.ValidModelsCount);*/
 
-ForwardChaining fc = new ForwardChaining(kn);
+/*ForwardChaining fc = new ForwardChaining(kn);
 fc.Solve();
 
-Console.WriteLine((fc.Entails) ? $"YES: {string.Join(" ,", fc.InferenceChain)}" : "NO");
+Console.WriteLine((fc.Entails) ? $"YES: {string.Join(" ,", fc.InferenceChain)}" : "NO");*/
 
+BackwardChaining bc = new BackwardChaining(kn);
+bc.Solve();
+
+Console.WriteLine((bc.Entails) ? $"YES: {string.Join(", ", bc.InferenceChain)}" : "NO");

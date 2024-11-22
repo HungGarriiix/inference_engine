@@ -18,6 +18,17 @@ namespace InferenceEngine
         public List<Clause> Base { get; set; }
         public Clause Query { get; set; }
 
+        public HashSet<Symbol> Symbols 
+        { 
+            get 
+            {
+                HashSet<Symbol> result = new HashSet<Symbol>();
+                foreach (Clause clause in Base)
+                    foreach (Symbol symbol in clause.Symbols())
+                        result.Add(symbol);
+                return result;
+            } 
+        }
         public void ReadFile(string file)
         {
             StreamReader sr = new StreamReader(file);
@@ -52,6 +63,5 @@ namespace InferenceEngine
                 Query = queryClause;
             }
         }
-
     }
 }
